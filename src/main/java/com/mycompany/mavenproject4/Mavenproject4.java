@@ -9,12 +9,25 @@ package com.mycompany.mavenproject4;
  * @author ASUS
  */
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 public class Mavenproject4 extends JFrame {
 
@@ -31,6 +44,9 @@ public class Mavenproject4 extends JFrame {
     private boolean actionColumnsAdded = false;
 
     public Mavenproject4() {
+        setTitle("GraphQL Product Form");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
         setTitle("Library Visit Log");
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,6 +60,7 @@ public class Mavenproject4 extends JFrame {
         purposeBox = new JComboBox<>(new String[] {"Membaca", "Meminjam/Mengembalikan Buku", "Research", "Belajar"});
         addButton = new JButton("Add");
         clearButton = new JButton("Clear");
+        
 
         inputPanel.setBorder(BorderFactory.createTitledBorder("Visit Entry Form"));
         inputPanel.add(new JLabel("NIM:"));
@@ -56,8 +73,17 @@ public class Mavenproject4 extends JFrame {
         inputPanel.add(purposeBox);
         inputPanel.add(addButton);
         inputPanel.add(clearButton);
+        inputPanel.add(addButton);
+        inputPanel.add(clearButton);
+
+        
 
         add(inputPanel, BorderLayout.NORTH);
+
+        visitTable = new JTable(tableModel);
+        add(new JScrollPane(visitTable), BorderLayout.CENTER);
+        addButton.addActionListener(e -> addActionColumns());
+        
 
         String[] columns = {"Waktu Kunjungan", "NIM", "Nama", "Program Studi", "Tujuan Kunjungan"};
         tableModel = new DefaultTableModel(columns, 0);
@@ -85,6 +111,8 @@ public class Mavenproject4 extends JFrame {
     
     private void addActionColumns() {
         tableModel.addColumn("Action");
+        
+        
 
         for (int i = 0; i < tableModel.getRowCount(); i++) {
             tableModel.setValueAt("Action", i, tableModel.getColumnCount() - 2);
